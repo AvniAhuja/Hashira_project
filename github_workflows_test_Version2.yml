@@ -1,0 +1,21 @@
+name: Run base_conversion tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y g++
+      - name: Download nlohmann/json
+        run: |
+          wget https://github.com/nlohmann/json/releases/download/v3.11.2/json.hpp
+          mv json.hpp ./json.hpp
+      - name: Build base_conversion
+        run: g++ base_conversion.cpp -o base_conversion
+      - name: Run Test Case 1
+        run: ./base_conversion test_case_1.json
+      - name: Run Test Case 2
+        run: ./base_conversion test_case_2.json
